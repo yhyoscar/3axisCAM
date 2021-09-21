@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Gcode simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap-3.1.1/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap-slider.min.css') }}">
+    <script src="{{ url_for('static', filename='lib/jquery-2.1.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/bootstrap-3.1.1/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/gl-matrix-2.2.0-min.js') }}"></script> 
+    <script src="{{ url_for('static', filename='lib/webgl-utils.js') }}"></script> 
+    <script src="{{ url_for('static', filename='lib/bootstrap-slider.min.js') }}"></script> 
+    <script src="{{ url_for('static', filename='api/js/parseGcode.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/RenderPath.js') }}"></script> 
+
+
+</head>
+<body>
+    <div class="row" style="padding-left: 10px;">
+        <div class="col-sm-3 container"> 
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#gcode1">gcode1</a></li>
+                <li><a data-toggle="tab" href="#gcode2">gcode2</a></li>
+            </ul>
+              
+            <div class="tab-content">
+                <div id="gcode1" class="tab-pane fade in active">
+                    <input type="file" name="file1" id="file1" style="display: inline-block;">
+                    <button style="display: inline-block;" id="render1">Render</button>
+                    <button style="display: inline-block;" id="clear1">Clear</button>
+                    <br>
+                    topZ: <input id="topz1" type="text" value="3.0">
+                    <br>
+                    Cutter Diameter: <input id="cutd1" type="text" value="3.0">
+                    <br>
+                    Cutter Angle: <input id="cuta1" type="text" value="180">     
+                    <br>
+                    Cutter Height: <input id="cuth1" type="text" value="10">
+                    <br>
+                    <textarea id="text1" style="width: 100%; height: 900px;"></textarea>
+                </div>
+                <div id="gcode2" class="tab-pane fade">
+                    <input type="file" name="file2" id="file2">
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-9 container"> 
+            <canvas id="renderPathCanvas" style="border: none;" width="1000px" height="900px"></canvas>
+            <br />
+            <br />
+            <input id="timeSlider" type="text" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="1000" />        
+        </div> 
+    </div>
+
+    <script>
+        $('#file1').on('change', function () {
+            var fileReader = new FileReader();
+            fileReader.readAsText($('#file1').prop('files')[0]);
+
+            fileReader.onload = function () {
+                $('#text1').val(fileReader.result);
+                render_gcode(fileReader.result, $('#topz1').val(), $('#cutd1').val(), $('#cuta1').val(), $('#cuth1').val());
+            };
+        });
+
+        $('#render1').on('click', function() {
+            renderPath = startRenderPath({}, $("#renderPathCanvas")[0], $('#timeSlider'), 'js', function (renderPath) {                 
+                render_gcode($('#text1').val(), $('#topz1').val(), $('#cutd1').val(), $('#cuta1').val(), $('#cuth1').val());
+            });
+        })
+
+        $('#clear1').on('click', function() {
+            $('#text1').val('');
+            render_gcode('', $('#topz1').val(), $('#cutd1').val(), $('#cuta1').val(), $('#cuth1').val());
+        })
+
+    </script>
+</body>
+</html>

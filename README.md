@@ -6,6 +6,6 @@
         + render multiple gocde files
         + show toolpath lines
     - Toolpath generator & editor
-        + svg to gcode
+        + svg to gcode (include laser cutter)
         + depth map to gcode
 

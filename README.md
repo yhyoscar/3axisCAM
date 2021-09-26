@@ -4,4 +4,6 @@
     - Simulator:
         + add ball nose tool
         + render multiple gocde files
+        + show toolpath lines
+        + 
 

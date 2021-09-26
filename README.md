@@ -7,6 +7,5 @@
         + show toolpath lines
     - Toolpath generator & editor
         + svg to gcode
-            - 
         + depth map to gcode
 

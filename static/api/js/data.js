@@ -51,10 +51,10 @@ jscut.data = jscut.data || {};
             json = JSON.parse(json);
 
         var result = {
-            units: "inch",
-            thickness: "1.0",
+            units: "mm",
+            thickness: "6",
             zOrigin: "Top",
-            clearance: "0.1",
+            clearance: "3",
         }
 
         function fetch(name) {
@@ -65,9 +65,9 @@ jscut.data = jscut.data || {};
 
         fetch('units');
 
-        if (result.units == "mm") {
-            result.thickness *= 25.4;
-            result.clearance *= 25.4;
+        if (result.units == "inch") {
+            result.thickness /= 25.4;
+            result.clearance /= 25.4;
         }
 
         fetch('thickness');

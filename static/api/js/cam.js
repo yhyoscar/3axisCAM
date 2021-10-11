@@ -137,11 +137,13 @@ jscut.cam = jscut.cam || {};
             topZ = material.thickness * fromMatConv * toGcodeConv;
 
         var gcode = "";
-        if (gcodeOptions.units == "inch")
-            gcode += "G20         ; Set units to inches\r\n";
-        else
-            gcode += "G21         ; Set units to mm\r\n";
+        // if (gcodeOptions.units == "inch")
+        //     gcode += "G20         ; Set units to inches\r\n";
+        // else
+        //     gcode += "G21         ; Set units to mm\r\n";
         gcode += "G90         ; Absolute positioning\r\n";
+        gcode += "G49\r\n";
+        gcode += "M3 S1000\r\n";
         gcode += "G1 Z" + (topZ + material.clearance * fromMatConv * toGcodeConv) +
             " F" + tool.rapidRate * fromToolConv * toGcodeConv + "      ; Move to clearance level\r\n"
         return gcode;

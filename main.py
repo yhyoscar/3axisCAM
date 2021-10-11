@@ -18,9 +18,12 @@ app = Flask(__name__,
 
 
 @app.route('/simulator', methods=['GET', 'POST'])
-def home_page():
-
+def simulator():
     return render_template('simulator.html', content = {})
+
+@app.route('/editor', methods=['GET', 'POST'])
+def editor():
+    return render_template('jscut.html', content = {})    
 
 
 if __name__ == "__main__":

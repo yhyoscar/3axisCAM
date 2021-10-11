@@ -111,11 +111,13 @@ function GcodeConversionViewModel(options, miscViewModel, materialViewModel, too
         }
 
         var gcode = "";
-        if (self.units() == "inch")
-            gcode += "G20         ; Set units to inches\r\n";
-        else
-            gcode += "G21         ; Set units to mm\r\n";
+        // if (self.units() == "inch")
+        //     gcode += "G20         ; Set units to inches\r\n";
+        // else
+        //     gcode += "G21         ; Set units to mm\r\n";
         gcode += "G90         ; Absolute positioning\r\n";
+        gcode += "G49\r\n";
+        gcode += "M3 S1000\r\n";
         gcode += "G1 Z" + safeZ + " F" + rapidRate + "      ; Move to clearance level\r\n"
 
         for (var opIndex = 0; opIndex < ops.length; ++opIndex) {
@@ -160,10 +162,12 @@ function GcodeConversionViewModel(options, miscViewModel, materialViewModel, too
             });
         }
 
-        if (self.returnTo00())
-            gcode +=
-                "\r\n; Return to 0,0\r\n" +
-                "G0 X0 Y0 F" + rapidRate + "\r\n";
+        // if (self.returnTo00())
+        //     gcode +=
+        //         "\r\n; Return to 0,0\r\n" +
+        //         "G0 X0 Y0 F" + rapidRate + "\r\n";
+        
+        gcode += "G0 X0 Y0\r\n" + "M05\r\n" + "M02\r\n";
 
         self.gcode(gcode);
 
